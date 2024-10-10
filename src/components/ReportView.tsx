@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, XCircle, FileText } from 'lucide-react';
 import { Order, getOrders, updateOrder } from '../db/operations';
 
 const ReportView: React.FC = () => {
@@ -52,6 +52,14 @@ const ReportView: React.FC = () => {
             <p className="text-gray-600">Name: {order.name}</p>
             <p className="text-gray-600">Date: {order.date}</p>
             <p className="text-gray-600">Time: {order.time}</p>
+            {order.notes && (
+              <div className="mt-2">
+                <h4 className="font-semibold flex items-center">
+                  <FileText className="mr-1" size={16} /> Notes:
+                </h4>
+                <p className="text-gray-600 ml-5">{order.notes}</p>
+              </div>
+            )}
             <h4 className="font-semibold mt-4 mb-2">Items:</h4>
             <ul className="list-disc list-inside space-y-1">
               {order.items.map((item) => (

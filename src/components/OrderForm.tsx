@@ -14,7 +14,8 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [showOrderAcceptance, setShowOrderAcceptance] = useState(false);
-  const [orderDetails, setOrderDetails] = useState({ name: '', date: '', time: '' });
+  const [notes, setNotes] = useState('');
+  const [orderDetails, setOrderDetails] = useState({ name: '', date: '', time: '', notes: '' });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
       name,
       date,
       time,
+      notes,
       completed: false,
     };
     console.log('Order:', order);
@@ -31,20 +33,22 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
     console.log('Added order:', addedOrder);
     if (addedOrder) {
       console.log('Order submitted:', addedOrder);
-      setOrderDetails({ name, date, time });
+      setOrderDetails({ name, date, time, notes });
       setName('');
       setDate('');
       setTime('');
+      setNotes('');
       setShowOrderAcceptance(true);
       onOrderPlaced();
     } else {
       console.error('Failed to add order');
       // Even if addOrder returns null, we'll assume the order was added
       // since it's showing up in the database
-      setOrderDetails({ name, date, time });
+      setOrderDetails({ name, date, time, notes });
       setName('');
       setDate('');
       setTime('');
+      setNotes('');
       setShowOrderAcceptance(true);
       onOrderPlaced();
     }
@@ -107,6 +111,15 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
               onChange={(e) => setTime(e.target.value)}
               required
               className="input"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Notes:</label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="input w-full h-24 resize-none"
+              placeholder="Add any special instructions or notes for your order"
             />
           </div>
         </div>
