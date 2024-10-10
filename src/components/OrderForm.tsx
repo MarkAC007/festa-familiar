@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Trash2 } from 'lucide-react';
 import { addOrder, MenuItem } from '../db/operations';
 
 interface OrderFormProps {

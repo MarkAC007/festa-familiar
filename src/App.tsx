@@ -5,11 +5,12 @@ import OrderForm from './components/OrderForm';
 import AdminPanel from './components/AdminPanel';
 import ReportView from './components/ReportView';
 import { initSupabase } from './initSupabase';
+import { MenuItem } from './db/operations';
 
-// Import SVG flags as strings
-import scotlandFlag from './assets/gb-sct.svg';
-import portugalFlag from './assets/pt.svg';
-import southAfricaFlag from './assets/za.svg';
+// Import SVG flags as React components
+import { ReactComponent as ScotlandFlag } from './assets/gb-sct.svg';
+import { ReactComponent as PortugalFlag } from './assets/pt.svg';
+import { ReactComponent as SouthAfricaFlag } from './assets/za.svg';
 
 function App() {
   const [view, setView] = useState<'customer' | 'admin' | 'report'>('customer');
@@ -20,6 +21,7 @@ function App() {
     ordersTableStatus: 'unknown',
     lastChecked: new Date(),
   });
+  const [currentOrder, setCurrentOrder] = useState<MenuItem[]>([]);
 
   useEffect(() => {
     const checkDatabase = async () => {
@@ -107,13 +109,20 @@ function App() {
               <h2 className="section-title">
                 <ShoppingCart className="mr-2 float" /> Menu
               </h2>
-              <MenuList addToOrder={() => {}} />
+              <MenuList
+                addToOrder={(item) => setCurrentOrder([...currentOrder, item])}
+                currentOrder={currentOrder}
+              />
             </div>
             <div className="card">
               <h2 className="section-title">
                 <ClipboardList className="mr-2 float" /> Your Order
               </h2>
-              <OrderForm />
+              <OrderForm
+                selectedItems={currentOrder}
+                onOrderPlaced={() => setCurrentOrder([])}
+                removeFromOrder={removeFromOrder}
+              />
             </div>
           </div>
         )}
