@@ -1,28 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
+import { Order, getOrders, updateOrder } from '../db/operations';
 
-interface MenuItem {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-}
+const ReportView: React.FC = () => {
+  const [orders, setOrders] = useState<Order[]>([]);
 
-interface Order {
-  id: number;
-  items: MenuItem[];
-  name: string;
-  date: string;
-  time: string;
-  completed: boolean;
-}
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
-interface ReportViewProps {
-  orders: Order[];
-  completeOrder: (orderId: number) => Promise<void>;
-}
+  const fetchOrders = async () => {
+    const fetchedOrders = await getOrders();
+    setOrders(fetchedOrders);
+  };
 
-const ReportView: React.FC<ReportViewProps> = ({ orders, completeOrder }) => {
+  const completeOrder = async (orderId: string) => {
+    const updatedOrder = await updateOrder(orderId, { completed: true });
+    if (updatedOrder) {
+      setOrders(orders.map(order => order.id === orderId ? updatedOrder : order));
+    }
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-6 flex items-center text-blue-600">

@@ -36,6 +36,12 @@ function App() {
     southAfrica: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1920&q=80'
   };
 
+  const removeFromOrder = (index: number) => {
+    const newOrder = [...currentOrder];
+    newOrder.splice(index, 1);
+    setCurrentOrder(newOrder);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 nature-bg" style={{
       backgroundImage: `url(${backgrounds[background as keyof typeof backgrounds]})`,
@@ -52,21 +58,21 @@ function App() {
               onClick={() => setBackground('scotland')}
               title="Scotland"
             >
-              <img src={scotlandFlag} alt="Scotland Flag" className="w-8 h-8" />
+              <scotlandFlag className="w-8 h-8" />
             </button>
             <button 
               className="hover:scale-110 transition-transform duration-200 focus:outline-none" 
               onClick={() => setBackground('portugal')}
               title="Portugal"
             >
-              <img src={portugalFlag} alt="Portugal Flag" className="w-8 h-8" />
+              <portugalFlag className="w-8 h-8" />
             </button>
             <button 
               className="hover:scale-110 transition-transform duration-200 focus:outline-none" 
               onClick={() => setBackground('southAfrica')}
               title="South Africa"
             >
-              <img src={southAfricaFlag} alt="South Africa Flag" className="w-8 h-8" />
+              <southAfricaFlag className="w-8 h-8" />
             </button>
           </div>
           <nav className="space-x-2">
@@ -101,7 +107,7 @@ function App() {
               <h2 className="section-title">
                 <ShoppingCart className="mr-2 float" /> Menu
               </h2>
-              <MenuList menuItems={[]} addToOrder={() => {}} />
+              <MenuList addToOrder={() => {}} />
             </div>
             <div className="card">
               <h2 className="section-title">
