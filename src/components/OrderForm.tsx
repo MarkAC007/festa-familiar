@@ -12,6 +12,8 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [showOrderAcceptance, setShowOrderAcceptance] = useState(false);
+  const [orderDetails, setOrderDetails] = useState({ name: '', date: '', time: '' });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,11 +27,17 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
     const addedOrder = await addOrder(order);
     if (addedOrder) {
       console.log('Order submitted:', addedOrder);
+      setOrderDetails({ name, date, time });
       setName('');
       setDate('');
       setTime('');
+      setShowOrderAcceptance(true);
       onOrderPlaced();
     }
+  };
+
+  const handleCloseOrderAcceptance = () => {
+    setShowOrderAcceptance(false);
   };
 
   return (
@@ -98,6 +106,12 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
           Place Order
         </button>
       </form>
+      {showOrderAcceptance && (
+        <OrderAcceptance
+          onClose={handleCloseOrderAcceptance}
+          orderDetails={orderDetails}
+        />
+      )}
     </div>
   );
 };

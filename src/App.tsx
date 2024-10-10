@@ -6,11 +6,12 @@ import AdminPanel from './components/AdminPanel';
 import ReportView from './components/ReportView';
 import { initSupabase } from './initSupabase';
 import { MenuItem } from './db/operations';
+import OrderAcceptance from './components/OrderAcceptance';
 
-// Import SVG flags as React components
-import { ReactComponent as ScotlandFlag } from './assets/gb-sct.svg';
-import { ReactComponent as PortugalFlag } from './assets/pt.svg';
-import { ReactComponent as SouthAfricaFlag } from './assets/za.svg';
+// Import SVG flags as strings
+import scotlandFlag from './assets/gb-sct.svg';
+import portugalFlag from './assets/pt.svg';
+import southAfricaFlag from './assets/za.svg';
 
 function App() {
   const [view, setView] = useState<'customer' | 'admin' | 'report'>('customer');
@@ -52,7 +53,7 @@ function App() {
       <header className="bg-gradient-to-r from-scotland-bg via-portugal-bg to-south-africa-bg text-white p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-3xl font-bold flex items-center">
-            <Menu className="mr-2 float" /> A Grande Festa Familiar
+            <Menu className="mr-2 float" /> A Grande Festa Familia
           </h1>
           <div className="flex items-center space-x-4">
             <button 
@@ -60,21 +61,21 @@ function App() {
               onClick={() => setBackground('scotland')}
               title="Scotland"
             >
-              <scotlandFlag className="w-8 h-8" />
+              <img src={scotlandFlag} alt="Scotland Flag" className="w-8 h-8" />
             </button>
             <button 
               className="hover:scale-110 transition-transform duration-200 focus:outline-none" 
               onClick={() => setBackground('portugal')}
               title="Portugal"
             >
-              <portugalFlag className="w-8 h-8" />
+              <img src={portugalFlag} alt="Portugal Flag" className="w-8 h-8" />
             </button>
             <button 
               className="hover:scale-110 transition-transform duration-200 focus:outline-none" 
               onClick={() => setBackground('southAfrica')}
               title="South Africa"
             >
-              <southAfricaFlag className="w-8 h-8" />
+              <img src={southAfricaFlag} alt="South Africa Flag" className="w-8 h-8" />
             </button>
           </div>
           <nav className="space-x-2">
@@ -121,7 +122,11 @@ function App() {
               <OrderForm
                 selectedItems={currentOrder}
                 onOrderPlaced={() => setCurrentOrder([])}
-                removeFromOrder={removeFromOrder}
+                removeFromOrder={(index) => {
+                  const newOrder = [...currentOrder];
+                  newOrder.splice(index, 1);
+                  setCurrentOrder(newOrder);
+                }}
               />
             </div>
           </div>
