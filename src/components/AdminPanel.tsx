@@ -16,33 +16,47 @@ const AdminPanel: React.FC = () => {
     fetchMenuItems();
   }, []);
 
+  useEffect(() => {
+    console.log('Menu items updated:', menuItems);
+  }, [menuItems]);
+
   const fetchMenuItems = async () => {
     const items = await getMenuItems();
+    console.log('Fetched menu items:', items);
     setMenuItems(items);
   };
 
   const handleAddMenuItem = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Adding new item:', newItem);
     const addedItem = await addMenuItem(newItem);
-    if (addedItem) {
-      await fetchMenuItems();
-      setNewItem({
-        name: '',
-        description: '',
-        image: '',
-        visible: true,
-      });
-    }
+    console.log('Added item:', addedItem);
+    
+    // Proceed even if addedItem is null
+    console.log('Fetching updated menu items');
+    await fetchMenuItems();
+    console.log('Setting new item state');
+    setNewItem({
+      name: '',
+      description: '',
+      image: '',
+      visible: true,
+    });
+    console.log('New item state set');
   };
 
   const handleEditMenuItem = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingItem) {
+      console.log('Updating item:', editingItem);
       const updatedItem = await updateMenuItem(editingItem.id, editingItem);
-      if (updatedItem) {
-        await fetchMenuItems();
-        setEditingItem(null);
-      }
+      console.log('Updated item:', updatedItem);
+      
+      // Proceed even if updatedItem is null
+      console.log('Fetching updated menu items');
+      await fetchMenuItems();
+      console.log('Resetting editing state');
+      setEditingItem(null);
     }
   };
 
