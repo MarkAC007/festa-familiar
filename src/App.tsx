@@ -8,10 +8,10 @@ import { initSupabase } from './initSupabase';
 import { MenuItem } from './db/operations';
 import OrderAcceptance from './components/OrderAcceptance';
 
-// Import SVG flags as strings
-import scotlandFlag from './assets/gb-sct.svg';
-import portugalFlag from './assets/pt.svg';
-import southAfricaFlag from './assets/za.svg';
+// Import PNG flags
+import scotlandFlag from './assets/scotland-flag.png';
+import portugalFlag from './assets/portugal-flag.png';
+import southAfricaFlag from './assets/south-africa-flag.png';
 
 function App() {
   const [view, setView] = useState<'customer' | 'admin' | 'report'>('customer');
@@ -61,7 +61,7 @@ function App() {
               onClick={() => setBackground('scotland')}
               title="Scotland"
             >
-              <img src={scotlandFlag} alt="Scotland Flag" className="w-8 h-8" />
+              <img src={scotlandFlag} alt="Scotland Flag" className="w-8 h-8 object-contain" />
             </button>
             <button 
               className="hover:scale-110 transition-transform duration-200 focus:outline-none" 
@@ -108,7 +108,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="card">
               <h2 className="section-title">
-                <ShoppingCart className="mr-2 float" /> Menu
+                <ShoppingCart className="mr-2 float" /> Uncle Mark & Luke's Breakfast Menu
               </h2>
               <MenuList
                 addToOrder={(item) => setCurrentOrder([...currentOrder, item])}

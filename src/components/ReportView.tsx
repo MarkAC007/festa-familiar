@@ -9,16 +9,24 @@ const ReportView: React.FC = () => {
     fetchOrders();
   }, []);
 
+  useEffect(() => {
+    console.log('Orders updated:', orders);
+  }, [orders]);
+
   const fetchOrders = async () => {
+    console.log('Fetching orders');
     const fetchedOrders = await getOrders();
+    console.log('Fetched orders:', fetchedOrders);
     setOrders(fetchedOrders);
   };
 
   const completeOrder = async (orderId: string) => {
+    console.log('Marking order as complete:', orderId);
     const updatedOrder = await updateOrder(orderId, { completed: true });
-    if (updatedOrder) {
-      setOrders(orders.map(order => order.id === orderId ? updatedOrder : order));
-    }
+    console.log('Updated order:', updatedOrder);
+    
+    // Refresh orders regardless of the updateOrder result
+    await fetchOrders();
   };
 
   return (

@@ -89,9 +89,11 @@ export async function getOrders(): Promise<Order[]> {
 }
 
 export async function addOrder(order: Omit<Order, 'id'>): Promise<Order | null> {
+  console.log('Adding order:', order);
   const { data, error } = await supabase
     .from('orders')
     .insert(order)
+    .select() // Add this line
     .single();
   
   if (error) {
@@ -99,6 +101,7 @@ export async function addOrder(order: Omit<Order, 'id'>): Promise<Order | null> 
     return null;
   }
   
+  console.log('Order added successfully:', data);
   return data;
 }
 

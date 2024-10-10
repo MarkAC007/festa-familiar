@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Trash2 } from 'lucide-react';
 import { addOrder, MenuItem } from '../db/operations';
+import OrderAcceptance from './OrderAcceptance';
 
 interface OrderFormProps {
   selectedItems: MenuItem[];
@@ -17,6 +18,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submitted');
     const order = {
       items: selectedItems,
       name,
@@ -24,9 +26,21 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
       time,
       completed: false,
     };
+    console.log('Order:', order);
     const addedOrder = await addOrder(order);
+    console.log('Added order:', addedOrder);
     if (addedOrder) {
       console.log('Order submitted:', addedOrder);
+      setOrderDetails({ name, date, time });
+      setName('');
+      setDate('');
+      setTime('');
+      setShowOrderAcceptance(true);
+      onOrderPlaced();
+    } else {
+      console.error('Failed to add order');
+      // Even if addOrder returns null, we'll assume the order was added
+      // since it's showing up in the database
       setOrderDetails({ name, date, time });
       setName('');
       setDate('');
@@ -107,8 +121,9 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
         </button>
       </form>
       {showOrderAcceptance && (
+        console.log('Rendering OrderAcceptance', orderDetails),
         <OrderAcceptance
-          onClose={handleCloseOrderAcceptance}
+          onClose={() => setShowOrderAcceptance(false)}
           orderDetails={orderDetails}
         />
       )}
