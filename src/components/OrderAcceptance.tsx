@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle, Calendar, Clock } from 'lucide-react';
+import { CheckCircle, Calendar, Clock, FileText } from 'lucide-react';
 
 interface OrderAcceptanceProps {
   onClose: () => void;
@@ -7,6 +7,7 @@ interface OrderAcceptanceProps {
     name: string;
     date: string;
     time: string;
+    notes: string;
   };
 }
 
@@ -22,10 +23,16 @@ const OrderAcceptance: React.FC<OrderAcceptanceProps> = ({ onClose, orderDetails
           <Calendar className="text-blue-500 mr-2" />
           <p className="text-gray-600">{orderDetails.date}</p>
         </div>
-        <div className="flex justify-center items-center mb-6">
+        <div className="flex justify-center items-center mb-4">
           <Clock className="text-blue-500 mr-2" />
           <p className="text-gray-600">{orderDetails.time}</p>
         </div>
+        {orderDetails.notes && (
+          <div className="flex items-start mb-6">
+            <FileText className="text-blue-500 mr-2 mt-1 flex-shrink-0" />
+            <p className="text-gray-600 text-left">{orderDetails.notes}</p>
+          </div>
+        )}
         <button
           onClick={onClose}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"

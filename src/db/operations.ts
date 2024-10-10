@@ -10,11 +10,12 @@ export interface MenuItem {
 
 export interface Order {
   id: string;
-  items: MenuItem[];
   name: string;
   date: string;
   time: string;
+  items: { id: string; name: string }[];
   completed: boolean;
+  notes?: string;
 }
 
 export async function getMenuItems(): Promise<MenuItem[]> {
