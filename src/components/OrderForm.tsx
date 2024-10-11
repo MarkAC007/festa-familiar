@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Trash2 } from 'lucide-react';
+import { ShoppingBag, Trash2, Clock } from 'lucide-react';
 import { addOrder, MenuItem } from '../db/operations';
 import OrderAcceptance from './OrderAcceptance';
 
@@ -60,6 +60,17 @@ const OrderForm: React.FC<OrderFormProps> = ({ selectedItems, onOrderPlaced, rem
 
   return (
     <div>
+      <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6 rounded">
+        <h3 className="font-bold flex items-center mb-2">
+          <Clock className="mr-2" /> Opening times:
+        </h3>
+        <ul className="list-disc list-inside mb-2">
+          <li>Saturday morning</li>
+          <li>Monday morning</li>
+        </ul>
+        <p className="italic">Please place your orders the night before.</p>
+      </div>
+
       <h2 className="text-xl font-semibold mb-4">Current Order</h2>
       {selectedItems.length === 0 ? (
         <p className="text-gray-500 mb-6">Your order is empty</p>
